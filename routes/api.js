@@ -21,7 +21,7 @@ module.exports = function(app) {
           title: book.title,
           commentcount: book.comments.length,
         }));
-        return res.json(books);
+        return res.status(200).json(books);
         //response will be array of book objects
         //json res format: [{"_id": bookid, "title": book_title, "commentcount": num_of_comments },...]
       } catch (error) {
@@ -42,7 +42,7 @@ module.exports = function(app) {
 
         if (response.acknowledged) {
           const book = await collection.findOne({ _id: response.insertedId });
-          return res.json(book);
+          return res.status(200).json(book);
         } else {
           throw Error("MongoDB could not insert new document");
         }
@@ -58,7 +58,7 @@ module.exports = function(app) {
         const deletion = await collection.deleteMany({});
         console.log(deletion.acknowledged);
         if (deletion.acknowledged) {
-          return res.send("complete delete successful");
+          return res.status(200).send("complete delete successful");
         } else {
           throw Error("MongoDB could not delete documents");
         }
@@ -75,8 +75,8 @@ module.exports = function(app) {
         let bookid = new ObjectId(req.params.id);
         const collection = await getCollection();
         const book = await collection.findOne({ _id: bookid });
-        if (!book) return res.send("no book exists");
-        res.json(book);
+        if (!book) return res.status(404).send("no book exists");
+        res.status(200).json(book);
         //json res format: {"_id": bookid, "title": book_title, "comments": [comment,comment,...]}
       } catch (error) {
         console.log(error);
@@ -87,7 +87,8 @@ module.exports = function(app) {
       try {
         let bookid = new ObjectId(req.params.id);
         let comment = req.body.comment;
-        if (!comment) return res.send("missing required field comment");
+        if (!comment)
+          return res.status(400).send("missing required field comment");
         const collection = await getCollection();
 
         const updatedBook = await collection.findOneAndUpdate(
@@ -98,9 +99,9 @@ module.exports = function(app) {
         );
         if (updatedBook) {
           const book = await collection.findOne({ _id: bookid });
-          return res.json(book);
+          return res.status(200).json(book);
         } else {
-          return res.send("no book exists");
+          return res.status(404).send("no book exists");
         }
         //json res format same as .get
       } catch (error) {
@@ -114,9 +115,10 @@ module.exports = function(app) {
         const collection = await getCollection();
         const deletion = await collection.deleteOne({ _id: bookid });
 
-        if (deletion.deletedCount < 1) return res.send("no book exists");
+        if (deletion.deletedCount < 1)
+          return res.status(404).end("no book exists");
         if (deletion.acknowledged) {
-          return res.send("delete successful");
+          return res.status(200).send("delete successful");
         }
       } catch (error) {
         console.log(error);
