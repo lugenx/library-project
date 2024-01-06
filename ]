@@ -85,15 +85,15 @@ suite("Functional Tests", function() {
         chai
           .request(server)
           .get("/api/books")
-          .end(function(_err, res) {
+          .end(
             assert.isArray(res.body, "response body should be an array");
-            // TODO: fix this test
-            for (let elem of res.body) {
-              assert.property(elem, title, "should have a title property");
 
-              done();
-            }
-          });
+            for (let elem of res.body) {
+          assert.property(elem, title, "should have a title property")
+        }
+          );
+        
+        done();
       });
     });
 

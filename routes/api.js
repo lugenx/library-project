@@ -32,7 +32,7 @@ module.exports = function(app) {
     .post(async function(req, res) {
       try {
         let title = req.body.title;
-        if (!title) return res.send("missing required field title");
+        if (!title) return res.status(400).send("missing required field title");
 
         const collection = await getCollection();
         const response = await collection.insertOne({
