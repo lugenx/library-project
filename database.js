@@ -17,7 +17,6 @@ async function connectDb() {
   try {
     await client.connect();
     database = client.db("quality-assurance-cert-projects");
-
     return database;
   } catch (err) {
     console.log("MongoDB Connection Error: ", err);
@@ -25,6 +24,17 @@ async function connectDb() {
   }
 }
 
+async function getCollection() {
+  try {
+    const response = database.collection("books");
+
+    return response;
+  } catch (err) {
+    console.log("MongoDB error in getCollection");
+  }
+}
+
 module.exports = {
   connectDb,
+  getCollection,
 };
