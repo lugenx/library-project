@@ -32,7 +32,7 @@ module.exports = function(app) {
     .post(async function(req, res) {
       try {
         let title = req.body.title;
-        if (!title) return res.status(400).send("missing required field title");
+        if (!title) return res.status(200).send("missing required field title");
 
         const collection = await getCollection();
         const response = await collection.insertOne({
@@ -75,7 +75,7 @@ module.exports = function(app) {
         let bookid = new ObjectId(req.params.id);
         const collection = await getCollection();
         const book = await collection.findOne({ _id: bookid });
-        if (!book) return res.status(404).send("no book exists");
+        if (!book) return res.status(200).send("no book exists");
         res.status(200).json(book);
         //json res format: {"_id": bookid, "title": book_title, "comments": [comment,comment,...]}
       } catch (error) {
@@ -88,7 +88,7 @@ module.exports = function(app) {
         let bookid = new ObjectId(req.params.id);
         let comment = req.body.comment;
         if (!comment)
-          return res.status(400).send("missing required field comment");
+          return res.status(200).send("missing required field comment");
         const collection = await getCollection();
 
         const updatedBook = await collection.findOneAndUpdate(
@@ -101,7 +101,7 @@ module.exports = function(app) {
           const book = await collection.findOne({ _id: bookid });
           return res.status(200).json(book);
         } else {
-          return res.status(404).send("no book exists");
+          return res.send("no book exists");
         }
         //json res format same as .get
       } catch (error) {
@@ -115,8 +115,7 @@ module.exports = function(app) {
         const collection = await getCollection();
         const deletion = await collection.deleteOne({ _id: bookid });
 
-        if (deletion.deletedCount < 1)
-          return res.status(404).end("no book exists");
+        if (deletion.deletedCount < 1) return res.end("no book exists");
         if (deletion.acknowledged) {
           return res.status(200).send("delete successful");
         }

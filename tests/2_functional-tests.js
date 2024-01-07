@@ -72,7 +72,7 @@ suite("Functional Tests", function() {
             .post("/api/books")
             .send({})
             .end(function(_err, res) {
-              assert.equal(res.status, 400);
+              assert.equal(res.status, 200);
               assert.strictEqual(res.text, "missing required field title");
               done();
             });
@@ -129,7 +129,7 @@ suite("Functional Tests", function() {
           .request(server)
           .get(`/api/books/${notExistedBookId}`)
           .end(function(_err, res) {
-            assert.strictEqual(res.status, 404);
+            assert.strictEqual(res.status, 200);
             assert.strictEqual(res.text, "no book exists");
             done();
           });
@@ -203,7 +203,7 @@ suite("Functional Tests", function() {
               comment: "",
             })
             .end(function(_err, res) {
-              assert.strictEqual(res.status, 400);
+              assert.strictEqual(res.status, 200);
               assert.strictEqual(res.text, "missing required field comment");
               done();
             });
@@ -217,7 +217,7 @@ suite("Functional Tests", function() {
               comment: "test comment 2",
             })
             .end(function(_err, res) {
-              assert.strictEqual(res.status, 404);
+              assert.strictEqual(res.status, 200);
               assert.strictEqual(res.text, "no book exists");
               done();
             });
@@ -265,7 +265,7 @@ suite("Functional Tests", function() {
           .request(server)
           .delete(`/api/books/${existedBookId}`)
           .end(function(_err, res) {
-            assert.strictEqual(res.status, 404);
+            assert.strictEqual(res.status, 200);
             assert.strictEqual(res.text, "no book exists");
             done();
           });
