@@ -18,7 +18,7 @@ suite("Functional Tests", function() {
    * ----[EXAMPLE TEST]----
    * Each test should completely test the response of the API end-point including response status code!
    */
-  test("1 #example Test GET /api/books", function(done) {
+  test("#example Test GET /api/books", function(done) {
     chai
       .request(server)
       .get("/api/books")
@@ -51,7 +51,7 @@ suite("Functional Tests", function() {
     suite(
       "POST /api/books with title => create book object/expect book object",
       function() {
-        test("2 Test POST /api/books with title", function(done) {
+        test("Test POST /api/books with title", function(done) {
           chai
             .request(server)
             .post("/api/books")
@@ -66,7 +66,7 @@ suite("Functional Tests", function() {
             });
         });
 
-        test("3 Test POST /api/books with no title given", function(done) {
+        test("Test POST /api/books with no title given", function(done) {
           chai
             .request(server)
             .post("/api/books")
@@ -81,7 +81,7 @@ suite("Functional Tests", function() {
     );
 
     suite("GET /api/books => array of books", function() {
-      test("4 Test GET /api/books", function(done) {
+      test("Test GET /api/books", function(done) {
         chai
           .request(server)
           .get("/api/books")
@@ -124,7 +124,7 @@ suite("Functional Tests", function() {
           });
       });
 
-      test("5 Test GET /api/books/[id] with id not in db", function(done) {
+      test("Test GET /api/books/[id] with id not in db", function(done) {
         chai
           .request(server)
           .get(`/api/books/${notExistedBookId}`)
@@ -135,7 +135,7 @@ suite("Functional Tests", function() {
           });
       });
 
-      test("6 Test GET /api/books/[id] with valid id in db", function(done) {
+      test("Test GET /api/books/[id] with valid id in db", function(done) {
         chai
           .request(server)
           .get(`/api/books/${existedBookId}`)
@@ -177,7 +177,7 @@ suite("Functional Tests", function() {
             });
         });
 
-        test("7 Test POST /api/books/[id] with comment", function(done) {
+        test("Test POST /api/books/[id] with comment", function(done) {
           chai
             .request(server)
             .post(`/api/books/${existedBookId}`)
@@ -195,7 +195,7 @@ suite("Functional Tests", function() {
             });
         });
 
-        test("8 Test POST /api/books/[id] without comment field", function(done) {
+        test("Test POST /api/books/[id] without comment field", function(done) {
           chai
             .request(server)
             .post(`/api/books/${existedBookId}`)
@@ -209,7 +209,7 @@ suite("Functional Tests", function() {
             });
         });
 
-        test("9 Test POST /api/books/[id] with comment, id not in db", function(done) {
+        test("Test POST /api/books/[id] with comment, id not in db", function(done) {
           chai
             .request(server)
             .post(`/api/books/${notExistedBookId}`)
@@ -249,7 +249,7 @@ suite("Functional Tests", function() {
             done();
           });
       });
-      test("10 Test DELETE /api/books/[id] with valid id in db", function(done) {
+      test("Test DELETE /api/books/[id] with valid id in db", function(done) {
         chai
           .request(server)
           .delete(`/api/books/${existedBookId}`)
@@ -260,10 +260,10 @@ suite("Functional Tests", function() {
           });
       });
 
-      test("11 Test DELETE /api/books/[id] with  id not in db", function(done) {
+      test("Test DELETE /api/books/[id] with  id not in db", function(done) {
         chai
           .request(server)
-          .delete(`/api/books/${existedBookId}`)
+          .delete(`/api/books/${notExistedBookId}`)
           .end(function(_err, res) {
             assert.strictEqual(res.status, 200);
             assert.strictEqual(res.text, "no book exists");
